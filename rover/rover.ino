@@ -26,6 +26,7 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
+/* Servo Motor Settings*/
 BLEServer *pServer = NULL;
 BLECharacteristic * pTxCharacteristic;
 bool deviceConnected = false;
@@ -33,6 +34,16 @@ bool oldDeviceConnected = false;
 uint8_t txValue = 0;
 char t[4];
 int SPEED, MAX_SPEED, MIN_SPEED;
+
+/* Ultrasonic Sensor Settings */
+const int trigPin = 16;
+const int echoPin = 17;
+#define sound speed in cm/uS
+#define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
+unsigned int duration;
+float distanceCm;
+float distObstacle(void);
 
 
 
@@ -148,6 +159,25 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       }
     }
 };
+
+
+float distObstacle(){
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  // Calculate the distance
+  distanceCm = duration * SOUND_SPEED/2;
+  //Serial.print("Distance (cm): "); for debugging
+
+  return distanceCm;
+
+}
 void setup() {
   // put your setup code here, to run once:
 SPEED = 100;
@@ -158,7 +188,13 @@ AFMS.begin();
 myMotor1->setSpeed(SPEED);
 myMotor2->setSpeed(SPEED);
 
-Serial.begin(115200);
+Serial.begin(115200); // Starts the serial communication
+
+  /*Setup for Ultrasonic Sensor */
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+
+
 
   // Create the BLE Device
   BLEDevice::init("UART Service");
@@ -225,3 +261,52 @@ void loop() {
     stopMotion();
    
 }
+
+/*
+const int trigPin = 16;
+const int echoPin = 17;
+
+#define sound speed in cm/uS
+#define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
+
+unsigned int duration;
+float distanceCm;
+float distanceInch;
+
+void setup() {
+  Serial.begin(115200); // Starts the serial communication
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+}
+
+void loop() {
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+  Serial.print("duration"  );
+  Serial.println(duration);
+    // Calculate the distance
+  distanceCm = duration * SOUND_SPEED/2;
+  
+  // Convert to inches
+  distanceInch = distanceCm * CM_TO_INCH;
+  
+  // Prints the distance in the Serial Monitor
+  Serial.print("Distance (cm): ");
+  Serial.println(distanceCm);
+  Serial.print("Distance (inch): ");
+  Serial.println(distanceInch);
+  
+  delay(1000);
+  //Serial.println(duration);
+}
+*/
+
