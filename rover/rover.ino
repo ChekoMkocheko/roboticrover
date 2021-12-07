@@ -1,50 +1,20 @@
-/*
-    Video: https://www.youtube.com/watch?v=oCMOYS71NIU
-    Based on Neil Kolban example for IDF: https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleNotify.cpp
-    Ported to Arduino ESP32 by Evandro Copercini
-
-   Create a BLE server that, once we receive a connection, will send periodic notifications.
-   The service advertises itself as: 6E400001-B5A3-F393-E0A9-E50E24DCCA9E
-   Has a characteristic of: 6E400002-B5A3-F393-E0A9-E50E24DCCA9E - used for receiving data with "WRITE"
-   Has a characteristic of: 6E400003-B5A3-F393-E0A9-E50E24DCCA9E - used to send data with  "NOTIFY"
-
-   The design of creating the BLE server is:
-   1. Create a BLE Server
-   2. Create a BLE Service
-   3. Create a BLE Characteristic on the Service
-   4. Create a BLE Descriptor on the characteristic
-   5. Start the service.
-   6. Start advertising.
-
-   In this example rxValue is the data received (only accessible inside that function).
-   And txValue is the data to be sent, in this example just a byte incremented every second.
-*/
-
 /*bluetooth service headers */
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
+#include <math.h>
 
-/* Servo Motor Settings*/
+
 BLEServer *pServer = NULL;
 BLECharacteristic * pTxCharacteristic;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
+bool isAuto = false;
 uint8_t txValue = 0;
 char t[4];
 int SPEED, MAX_SPEED, MIN_SPEED;
-
-/* Ultrasonic Sensor Settings */
-const int trigPin = 16;
-const int echoPin = 17;
-#define sound speed in cm/uS
-#define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.393701
-unsigned int duration;
-float distanceCm;
-float distObstacle(void);
-
+void automode(void);
 
 
 // See the following for generating UUIDs:
@@ -55,14 +25,35 @@ float distObstacle(void);
 #define CHARACTERISTIC_UUID_RX "6E400002-B5A3-F393-E0A9-E50E24DCCA9E"
 #define CHARACTERISTIC_UUID_TX "6E400003-B5A3-F393-E0A9-E50E24DCCA9E"
 
+
 /*motor control headers */
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
-Adafruit_DCMotor *myMotor1 = AFMS.getMotor(1);
-Adafruit_DCMotor *myMotor2 = AFMS.getMotor(2);
+Adafruit_DCMotor *rightBack = AFMS.getMotor(1);
+Adafruit_DCMotor *leftBack = AFMS.getMotor(2);
+Adafruit_DCMotor *rightFront = AFMS.getMotor(3);
+Adafruit_DCMotor *leftFront = AFMS.getMotor(4);
+
+
+
+const int trigPin = 16;
+const int echoPin = 17;
+
+#define sound speed in cm/uS
+#define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
+#define FULL_ROTATION 800000
+#define DIST_OFFSET 70000
+void dist(void);
+unsigned int duration;
+volatile int echoduration = 0;
+float distanceCm;
+float distanceInch;
+float destDist;
+float destAngle;
 
 /*handles connecting and disconnecting to the bluetooth server */
 class MyServerCallbacks: public BLEServerCallbacks {
@@ -78,53 +69,64 @@ class MyServerCallbacks: public BLEServerCallbacks {
 
 
 void turnRight(){
-  myMotor2->setSpeed(SPEED);
-  myMotor1->setSpeed(SPEED / 10);
+  leftBack->setSpeed(SPEED);
+  leftFront->setSpeed(SPEED);
+  rightBack->setSpeed(SPEED / 10);
+  rightFront->setSpeed(SPEED / 10);
 }
 void turnLeft(){
-  myMotor2->setSpeed(SPEED / 10);
-  myMotor1->setSpeed(SPEED);
+  rightBack->setSpeed(SPEED);
+  rightFront->setSpeed(SPEED);
+  leftBack->setSpeed(SPEED / 10);
+  leftFront->setSpeed(SPEED / 10);
 }
 void turnStraight(){
-  myMotor1->setSpeed(SPEED);
-  myMotor2->setSpeed(SPEED);
+  leftBack->setSpeed(SPEED);
+  leftFront->setSpeed(SPEED);
+  rightBack->setSpeed(SPEED);
+  rightFront->setSpeed(SPEED);
 }
 void stopMotion(){
-  myMotor2->run(RELEASE);
-  myMotor1->run(RELEASE);
+  leftBack->run(RELEASE);
+  leftFront->run(RELEASE);
+  rightBack->run(RELEASE);
+  rightFront->run(RELEASE);
 }
 
 void moveRight(){
   turnRight();
-  myMotor1->run(FORWARD);
-  myMotor2->run(FORWARD);
+  leftBack->run(FORWARD);
+  leftFront->run(FORWARD);
+  rightBack->run(FORWARD);
+  rightFront->run(FORWARD);
 }
 
 void moveLeft(){
   turnLeft();
-  myMotor2->run(FORWARD);
-  myMotor1->run(FORWARD);
+  leftBack->run(FORWARD);
+  leftFront->run(FORWARD);
+  rightBack->run(FORWARD);
+  rightFront->run(FORWARD);
 }
-void moveRightBack(){
-  turnLeft();
-  myMotor2->run(BACKWARD);
-  myMotor1->run(BACKWARD);
-}
-void moveLeftBack(){
-  turnRight();
-  myMotor2->run(BACKWARD);
-  myMotor1->run(BACKWARD);
-}
+
 void moveForward(){
+  dist();
   turnStraight();
-  myMotor2->run(FORWARD);
-  myMotor1->run(FORWARD);
+  if(echoduration > 1500 || echoduration == 0){
+    leftBack->run(FORWARD);
+    leftFront->run(FORWARD);
+    rightBack->run(FORWARD);
+    rightFront->run(FORWARD);
+  }
+
 }
 
 void moveBackward(){
   turnStraight();
-  myMotor2->run(BACKWARD);
-  myMotor1->run(BACKWARD);
+  leftBack->run(FORWARD);
+  leftFront->run(FORWARD);
+  rightBack->run(BACKWARD);
+  rightFront->run(BACKWARD);
 }
 void increaseSpeed(){
   if (SPEED + 5 < MAX_SPEED){
@@ -159,42 +161,31 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       }
     }
 };
-
-
-float distObstacle(){
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
+void dist() {
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
-  // Calculate the distance
-  distanceCm = duration * SOUND_SPEED/2;
-  //Serial.print("Distance (cm): "); for debugging
-
-  return distanceCm;
-
+  echoduration = duration;
+  Serial.println(duration);
 }
 void setup() {
-  // put your setup code here, to run once:
+Serial.begin(115200);
+//Serial1.begin(9600);
+
+//DC motors setup
 SPEED = 100;
 MAX_SPEED = 200;
 MIN_SPEED = 20;
 
 AFMS.begin();
-myMotor1->setSpeed(SPEED);
-myMotor2->setSpeed(SPEED);
+leftBack->setSpeed(SPEED);
+rightBack->setSpeed(SPEED);
+leftFront->setSpeed(SPEED);
+rightFront->setSpeed(SPEED);
 
-Serial.begin(115200); // Starts the serial communication
-
-  /*Setup for Ultrasonic Sensor */
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-
-
+//bluetooth (bluefruit) setup
 
   // Create the BLE Device
   BLEDevice::init("UART Service");
@@ -227,11 +218,80 @@ Serial.begin(115200); // Starts the serial communication
   // Start advertising
   pServer->getAdvertising()->start();
   Serial.println("Waiting a client connection to notify...");
+
+  //ultrasonic sensor setup
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+}
+//void avoidObject(){
+//  
+//}
+ /**
+  * driveMotor is responsible for interpreting the inputs from bluetooth. We programmed different behaviors
+  * to the buttons in order to respond move the robot and be able to switch from auto to manual, increase and decrease speed,
+  * turn right and left, and move forward and backwards.
+  */
+// void adjust(int timevar, int angle){
+//  int dist = timevar * SPEED;
+//  
+// }
+ void turnAngle(int angle){
+  if (angle > 0){
+    moveRight();
+    delay(FULL_ROTATION * angle/ (SPEED * 360) );
+  }
+  if (angle < 0){
+    moveLeft();
+    delay(FULL_ROTATION * angle * -1 / (SPEED * 360));
+  }
+ 
+ }
+ void moveDist(int travelDist){
+  moveForward();
+  delay(70000 * travelDist / (11 * SPEED));
+  stopMotion();
+ }
+ void automode(){
+ if(echoduration > 1500 || echoduration == 0) {
+  //moveForward();
+  dist();
+ }
+ else{
+    stopMotion();
+    turnAngle(90);
+    moveDist(20);
+    //stopMotion();
+    //dist();
+  }
+ }
+void driveMotor(){
+  if (isAuto){
+    if (t[3] == '1' && t[2] == '4') isAuto = false;
+    automode();
+  }
+  else{
+    if (t[3] == '1' && t[2] == '1') increaseSpeed();
+    if (t[3] == '1' && t[2] == '2') decreaseSpeed();
+    if (t[3] == '1' && t[2] == '3') isAuto = true;
+    while (t[3] == '1' && t[2] == '5' && (echoduration > 1500 || echoduration == 0)) moveForward();
+    while (t[3] == '1' && t[2] == '6') moveBackward();
+    while (t[3] == '1' && t[2] == '7') moveLeft();
+    while (t[3] == '1' && t[2] == '8') moveRight();
+    stopMotion();
+    if(!(echoduration > 1500 || echoduration == 0)){
+      dist();
+  }
+  }
+ 
 }
 
-void loop() {
-
-      if (deviceConnected) {
+/**
+ * This function handles all of the communications between the bluetooth app (Bluefruit connect) and the rover.
+ * It is not only responsible for advertising our bluetooth server, for recognizing and connecting to a bluetooth device,
+ * and for handling disconnection (re-advertise).
+ */
+void communicateWithApp(){
+  if (deviceConnected) {
         pTxCharacteristic->setValue(&txValue, 1);
         pTxCharacteristic->notify();
         txValue++;
@@ -250,63 +310,10 @@ void loop() {
     // do stuff here on connecting
         oldDeviceConnected = deviceConnected;
     }
-    if (t[3] == '1' && t[2] == '1') increaseSpeed();
-    if (t[3] == '1' && t[2] == '2') decreaseSpeed();
-    while (t[3] == '1' && t[2] == '3') moveLeftBack();
-    while (t[3] == '1' && t[2] == '4') moveRightBack();
-    while (t[3] == '1' && t[2] == '5') moveForward();
-    while (t[3] == '1' && t[2] == '6') moveBackward();
-    while (t[3] == '1' && t[2] == '7') moveLeft();
-    while (t[3] == '1' && t[2] == '8') moveRight();
-    stopMotion();
-   
 }
-
-/*
-const int trigPin = 16;
-const int echoPin = 17;
-
-#define sound speed in cm/uS
-#define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.393701
-
-unsigned int duration;
-float distanceCm;
-float distanceInch;
-
-void setup() {
-  Serial.begin(115200); // Starts the serial communication
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-}
-
 void loop() {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
-  digitalWrite(trigPin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  
-  // Reads the echoPin, returns the sound wave travel time in microseconds
-  duration = pulseIn(echoPin, HIGH);
-  Serial.print("duration"  );
-  Serial.println(duration);
-    // Calculate the distance
-  distanceCm = duration * SOUND_SPEED/2;
-  
-  // Convert to inches
-  distanceInch = distanceCm * CM_TO_INCH;
-  
-  // Prints the distance in the Serial Monitor
-  Serial.print("Distance (cm): ");
-  Serial.println(distanceCm);
-  Serial.print("Distance (inch): ");
-  Serial.println(distanceInch);
-  
-  delay(1000);
-  //Serial.println(duration);
-}
-*/
+ 
+    communicateWithApp(); //handles all the communications with bluetooth
+    driveMotor();
 
+}
