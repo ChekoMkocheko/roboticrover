@@ -85,7 +85,7 @@ We found this libraries very useful in our development. They have good documenta
 2. [ESP32 Series Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf)
 3. [1 Differential Drive Kinematics](http://www.cs.columbia.edu/~allen/F17/NOTES/icckinematics.pdf)
 4. [Using ESp32 HW Timers](https://desire.giesecke.tk/index.php/2018/04/22/using-the-hw-timers-of-the-esp32/)
-5.[ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)
+5. [ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)
 6. [Using DC Motors | Adafruit Motor Shield V2 | Adafruit](https://learn.adafruit.com/adafruit-motor-shield-v2-for-arduino/using-dc-motors)
 7. [ESP32 Technical Tutorials: BLE Notifications](https://www.youtube.com/watch?v=oCMOYS71NIU)
 
