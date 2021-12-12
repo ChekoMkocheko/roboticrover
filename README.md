@@ -46,9 +46,12 @@ We found this libraries very useful in our development. They have good documenta
 3. BLEUtils
 4. BLE2902
 5. Wire
-6. Adafruit_MotorShield
+6. Adafruit_MotorShield V2
 7. utility/Adafruit_MS_PWMServorDriver
 8. Math
+
+We learnt about the libraries by googling how Arduino supports each individual component we wanted to use. We started by looking at how Arduino supports bluetooth connections. We used Arduino examples under BLE to learn how it works. We then read more about the BLE libraries online before implimenting the connection in our project. For the motors, we directly searched the Arduino library until we found the Adafruit_MotorShield library which does not have very good examples and it has been discontinued. We googled further and found instructions on how to use [version 2](https://learn.adafruit.com/adafruit-motor-shield-v2-for-arduino/using-dc-motors) which is still supported. 
+For the ultasonic sensor we wanted to use SoftwareSerial, the library that supports UART communication, but it does not support the Adafruit Esp32 Feather board. We could not use it. We used online tutorials to learn how to use the trig pin to send signals to the sensor and read back the duration it would take for the echo pin to recieve the reflected signal.
 
 <p align="center">
   <b>Methods</b>
@@ -57,6 +60,8 @@ We found this libraries very useful in our development. They have good documenta
 <p align="center">
   <b>Challenges</b>
 </p>
+
+We had a difficult time understanding how to use UART mode to read the distance directly from the chip of the utlrasonic sensor. The ducomentation provided by the manufacturer did not provide clear instructions on how to "Serial UART" by connecting the jumper at the right place. After spending many unproductive hours, we decided to switch to "HC-SR04" mode which also took us a while to learn how it works. 
 
 * Ureliable datasheets
 * Time
