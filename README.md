@@ -75,13 +75,12 @@ Lastly, we would have liked to use more components on the project such as a came
 <p align="center">
   <b>Future Work</b>
 </p>
-* Include WiFi-Mode that would allow for introduction of camera to the device to take visuals
-* Include data storage to store data for processing and for path tracking
-* Include GPS for mapping outdoors
-* Include mapping and searching algorithms if the rover is to be used in a confined environment
-* Include more sensors for data collection (temperature, humidity, pressure, winds etc)
-* Use stronger wheels and stronger DC motors that can withstand tougher terrain
-* Add LED lights for communication with user (eg. notifications)
+
+We encourage attaching a camera device that could connect to the controlling device over WiFi to collect visuals. Adding more sensors and storage devices would improve the applications of the rover to help meet the initial goal of the project. Storage devices might also enable storage of paths data that can be used by the project to move back to its place of origin if in autonomous mode. If a GPS device is included on the rover it would be possible to map paths and objects when outdoors. For indoor use, it is possible to use mapping algorithms similar to those used in an iRobot for indoor movement. 
+
+Our autonomous mode can also be upgraded using advanced search algorithms that would enable the rover reach its destination given GPS co-ordinates, or a specific location indoors. To increase the application of the rover, there is need to use bigger, stronger and more flexible wheels to navigate tougher terrains. The DC motors should also be upgraded to provide more power and speed to the rover. 
+
+Lastly, a small speaker and LED lights can be added to the rover to enable it send visual and audio messages to the controlling agent. For example, a flashing LED light wooudl be useful if the rover cannot find a path due to objects around it. 
 
 
 
