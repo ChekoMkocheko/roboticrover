@@ -57,17 +57,18 @@ For the ultasonic sensor we wanted to use SoftwareSerial, the library that suppo
   <b>Shedule</b>
 </p>
 We did not stick up to our initial schedule due to parts arriving late
+
 Original schedule:
 * Week 1: Connecting all parts and configure all pins
 * Week 2: Impliment self driving and bluetooth modes with obstacle avoidance
 * Week 3: Assemble all code and begin testing
-* Week 4: Prepare for final Presentation and write Up
+* Week 4: Prepare for final Presentation and write up
 
 Actual schedule:
 * Week 1: Planning and ordering of parts 
 * Week 2: Connecting all parts, configure pins and motor movements
 * Week 3: Object detection and avoidance, and autonomous driving mode
-* Week 4: Distance and Speed Calculations;  Turning at an Angle and Returning to original course
+* Week 4: Distance and speed calculations, turning at an angle and returning to original course
 * Week 5: Website and final write up
 
 <p align="center">
