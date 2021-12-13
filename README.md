@@ -54,6 +54,23 @@ We learnt about the libraries by googling how Arduino supports each individual c
 For the ultasonic sensor we wanted to use SoftwareSerial, the library that supports UART communication, but it does not support the Adafruit Esp32 Feather board. We could not use it. We used online tutorials to learn how to use the trig pin to send signals to the sensor and read back the duration it would take for the echo pin to recieve the reflected signal.
 
 <p align="center">
+  <b>Shedule</b>
+</p>
+We did not stick up to our initial schedule due to parts arriving late
+Original schedule:
+* Week 1: Connecting all parts and configure all pins
+* Week 2: Impliment self driving and bluetooth modes with obstacle avoidance
+* Week 3: Assemble all code and begin testing
+* Week 4: Prepare for final Presentation and write Up
+
+Actual schedule:
+* Week 1: Planning and ordering of parts 
+* Week 2: Connecting all parts, configure pins and motor movements
+* Week 3: Object detection and avoidance, and autonomous driving mode
+* Week 4: Distance and Speed Calculations;  Turning at an Angle and Returning to original course
+* Week 5: Website and final write up
+
+<p align="center">
   <b>Methods</b>
 </p>
 
