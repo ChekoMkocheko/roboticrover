@@ -63,9 +63,13 @@ For the ultasonic sensor we wanted to use SoftwareSerial, the library that suppo
 
 We had a difficult time understanding how to use UART mode to read the distance directly from the chip of the utlrasonic sensor. The ducomentation provided by the manufacturer did not provide clear instructions on how to "Serial UART" by connecting the jumper at the right place. After spending many unproductive hours, we decided to switch to "HC-SR04" mode which also took us a while to learn how it works. 
 
-* Ureliable datasheets
-* Time
-* Limited Resources
+In a different case, our rover could not move in a straight line becasue the weight of the torque was not evenly distributed and we did not have control of the front tyre. The rover would therefore curve in the direction of the heavier side. This affected our ability to smoothly control the car and made our autonomous mode not reach its targets. We corrected the error by removing the front trye and replacing it with two tyres and two DC motors, one on each side of the rover. We also made a few adjustments on the torque to balance its weight.
+
+Our initial full breadboard was too big for the rover and it interfered with the wiring of the entire project. We got rid of the full board and used a small breadboard instead. We attached the ultrasonic sensor at the periphery of the breadboard because this was the only space we could use. This made our rover to be inaccurate in detecting obstacles directly infront of it. The sensor was also too high to detect objects that were half the height of the rover. We soldered the sensor to wires and glued it at the front centor of the rover and connected the wires to the breadboard. At this position, the sensor could detect small obstacles at half the height of the rover. 
+
+We also experienced some challenges on how to determine distance and direction that we wanted our rover to move. We had to spend some time to undertand the Phyics and Math behind [differential drive kinematics](http://www.cs.columbia.edu/~allen/F17/NOTES/icckinematics.pdf). We then made our own calculations to find the speed of the rover and the time it would take to make a turn given direction in degrees. 
+
+Lastly, we would have liked to use more components on the project such as a camera that would stream videos or images back to the controlling device, and other sensors that could be used to collect more scientific data. We were not able to attach a camera because we could not find a camera that is supported by Arduino. Also tranferring video streams over bluetooth would have been challenging. We could not add other sensors due to timing and budgetary constraints. 
 
 
 <p align="center">
