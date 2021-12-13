@@ -75,6 +75,34 @@ Actual schedule:
   <b>Methods</b>
 </p>
 
+Our project has 4 main components; they include driving the wheels using motors, sensing distance from obstacles by using the ultrasonic sensor, connecting bluetooth to receive commands via UART and autonomous driving which relies on bluetooth connection for commands. 
+After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according to the diagram below:  **attch diagram Diagram can be handdrawn** 
+
+## Turning
+To make a turn, we studied differential drive kinematics to move the wheels at different speeds to turn into the direction that want. To make a right turn, we move the wheels of the left side of the rover at a speed that is 10 times faster than that of right side of the wheels (the inner wheels). To turn to the left side, we do the opposite.
+
+## Distance from an obtacle
+We use the ultrasonic sensor to detect obstacles infront of the rover. The sensor sends 8 bursts of ultrasonic waves from the trigger and receives the echo through the receiver. We calculate the distance of the object from the rover multiplying the duration it takes the receiver to recieve the first echo with the speed of sound in air divided by 2 to account for the round trip. In this project, we did not do the actual calculation of the distance, we instead calculate the duration it would take an object to be 15cm away from the rover and found it to be 883 microseconds. We then use this time to detect if there are any objects at within range direnctly infront of the rover. We stop moving if we sense an object in the case of manual control, we turn 45% degrees to the right if in autonomous mode. 
+
+## Assadou describe how the motors are connected and power including pins, and how the bluetooth connection is established. 
+
+## Bluetooth
+After writing the code for connecting the esp32 via bluetooth, we use the BlueFruit app on our phone to connect to the esp32's bluetooth. The app has four arrows and 4 digits that can be used to send commands to the board via UART. We have encoded this commands to associate every command recieved with the desired connection. For instance, pressing the forward arrow is equivalent to sending !arty to the esp via the UART terminal. This is interpreted as moving the the motors forward. 
+
+<p align="center">
+  <b>Manual Mode</b>
+  
+  To control the rover in manual mode, we have 4 arrows in our bluetooth application pointing forward, back, left and right. We also have digit controls 1 to 4. The rover uses the manual mode as its defualt mode. We use the arrows to make the rover move into the direction of the agents choosing. We increase speed by pressing 2 and reduce speed by pressing 1. The rover stops whenever we stop touching any of the arrow directions. 
+  
+</p>
+
+<p align="center">
+  <b>Autonomous Mode</b>
+</p>
+
+We switch to autonomous mode by pressing 3. We exit from autonomous mode by pressing 4. Autonomous mode automatically uses the top speed. At the moment, autonomous mode makes the rover to always move forward. If it encounters an object, it stops and turns 45 degrees to the right. The initial plan was to make it search for an obstackless path just like a worm would do. It would first turn 45 degrees to the right to see if it can move into that direction, if there is an object it would then turn 90 degrees to the left and try to find a free path. If the path is not free, then it would turn 135 degrees to the right to look for another path, it there is not path it would again turn 180 degrees to the left. If there is still no path, the rover would stop moving. 
+
+
 <p align="center">
   <b>Challenges</b>
 </p>
