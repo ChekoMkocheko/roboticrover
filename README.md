@@ -78,13 +78,13 @@ Actual schedule:
 Our project has 4 main components; they include driving the wheels using motors, sensing distance from obstacles by using the ultrasonic sensor, connecting bluetooth to receive commands via UART and autonomous driving which relies on bluetooth connection for commands. 
 After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according to the diagram below:  **attch diagram Diagram can be handdrawn** 
 
-## Turning
+#### Turning
 To make a turn, we studied differential drive kinematics to move the wheels at different speeds to turn into the direction that want. To make a right turn, we move the wheels of the left side of the rover at a speed that is 10 times faster than that of right side of the wheels (the inner wheels). To turn to the left side, we do the opposite.
 
-## Distance from an obtacle
+#### Distance from an obtacle
 We use the ultrasonic sensor to detect obstacles infront of the rover. The sensor sends 8 bursts of ultrasonic waves from the trigger and receives the echo through the receiver. We calculate the distance of the object from the rover multiplying the duration it takes the receiver to recieve the first echo with the speed of sound in air divided by 2 to account for the round trip. In this project, we did not do the actual calculation of the distance, we instead calculate the duration it would take an object to be 15cm away from the rover and found it to be 883 microseconds. We then use this time to detect if there are any objects at within range direnctly infront of the rover. We stop moving if we sense an object in the case of manual control, we turn 45% degrees to the right if in autonomous mode. 
 
-## Assadou describe how the motors are connected and power including pins, and how the bluetooth connection is established. 
+###### Assadou describe how the motors are connected and power including pins, and how the bluetooth connection is established. 
 
 ## Bluetooth
 After writing the code for connecting the esp32 via bluetooth, we use the BlueFruit app on our phone to connect to the esp32's bluetooth. The app has four arrows and 4 digits that can be used to send commands to the board via UART. We have encoded this commands to associate every command recieved with the desired connection. For instance, pressing the forward arrow is equivalent to sending !arty to the esp via the UART terminal. This is interpreted as moving the the motors forward. 
