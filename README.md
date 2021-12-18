@@ -136,6 +136,28 @@ Lastly, we would have liked to use more components on the project such as a came
 
 
 <p align="center">
+  <b>Accessibility</b>
+</p>
+The total cost of material used in this project could be a huge barrier to its implimentation by other people. To reduce the cost, one might choose to use fewer materials for instance using two DC motors instead of four and using custom-made wheels and chasis from a box or hard-board. 
+
+To control the rover using bluetooth one needs access to a smartphone that can download the BlueFruitConnect app. This might be a huge challenge for those who cannot afford to have a smartphone. However, one could go around this problem by using a Wi-Fi module and impliment a webservice that they can use to send instructions to the rover. 
+
+The rover is not easy to operate easily in autonomous mode becasue there are a lot of interfaces on the app that one needs to navigate before sending commands.  It needs a bit of tech savvines to operate. These issues can be addressed in the future by creating an app that is dedicated to sercive the rover only so that anyone can operate it. 
+
+In its current form, the rover cannot be operated by the visually impared. This can be addressed at the application level to allow the app to accept voice commands. It is not possible to accomodate this at the moment. 
+
+<p align="center">
+  <b>Ethical Concerns</b>
+</p>
+
+E-waste (the AA battery and the circuit boards)
+Parts can be recycled for bigger robotic projects
+Could be used for malice when more components are added e.g. to spy or for terrorism
+Security concerns: device can connect to any bluetooth device, it can easily be hacked, stolen or used for crime
+Makes people who designed it look way cooler than they really are
+
+
+<p align="center">
   <b>Future Work</b>
 </p>
 
