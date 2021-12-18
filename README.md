@@ -124,7 +124,7 @@ We had a difficult time understanding how to use UART mode to read the distance 
 
 In a different case, our rover could not move in a straight line becasue the weight of the torque was not evenly distributed and we did not have control of the front tyre. The rover would therefore curve in the direction of the heavier side. This affected our ability to smoothly control the car and made our autonomous mode not reach its targets. We corrected the error by removing the front trye and replacing it with two tyres and two DC motors, one on each side of the rover. We also made a few adjustments on the torque to balance its weight.
 
-Our initial full breadboard was too big for the rover and it interfered with the wiring of the entire project. We got rid of the full board and used a small breadboard instead. We attached the ultrasonic sensor at the periphery of the breadboard because this was the only space we could use. This made our rover to be inaccurate in detecting obstacles directly infront of it. The sensor was also too high to detect objects that were half the height of the rover. We soldered the sensor to wires and glued it at the front centor of the rover and connected the wires to the breadboard. At this position, the sensor could detect small obstacles at half the height of the rover. 
+Our initial full breadboard was too big for the rover and it interfered with the wiring of the entire project. We got rid of the full board and used a small breadboard instead. We attached the ultrasonic sensor at the periphery of the breadboard because this was the only space we could use. This made our rover to be inaccurate in detecting obstacles directly infront of it. The sensor was also too high to detect objects that were half the height of the rover. We soldered the sensor to wires and glued it at the front center of the rover and connected the wires to the breadboard. At this position, the sensor could detect small obstacles at half the height of the rover. 
 
 We also experienced some challenges on how to determine distance and direction that we wanted our rover to move. We had to spend some time to undertand the Phyics and Math behind [differential drive kinematics](http://www.cs.columbia.edu/~allen/F17/NOTES/icckinematics.pdf). We then made our own calculations to find the speed of the rover and the time it would take to make a turn given direction in degrees. 
 
@@ -139,7 +139,7 @@ We encourage attaching a camera device that could connect to the controlling dev
 
 Our autonomous mode can also be upgraded using advanced search algorithms that would enable the rover reach its destination given GPS co-ordinates, or a specific location indoors. To increase the application of the rover, there is need to use bigger, stronger and more flexible wheels to navigate tougher terrains. The DC motors should also be upgraded to provide more power and speed to the rover. 
 
-Lastly, a small speaker and LED lights can be added to the rover to enable it send visual and audio messages to the controlling agent. For example, a flashing LED light wooudl be useful if the rover cannot find a path due to objects around it. 
+Lastly, a small speaker can be added to the rover to enable it send audio messages to the controlling agent. For example, a siren or beeping sound could be used in conjuction with the red LIGHT for distress. 
 
 
 
