@@ -39,7 +39,7 @@ We used the rechargeable battery to provide 5v power to the Huzzah board, while 
 <p align="center">
   <b>Arduino Libraries</b>
 </p>
-We found this libraries very useful in our development. They have good documentation that is easy to follow for a biginner. 
+We found these libraries very useful in our development. They have good documentation that is easy to follow for a beginner. 
 
 1. BLEDevice
 2. BLEServer
@@ -56,10 +56,10 @@ For the ultasonic sensor we wanted to use SoftwareSerial, the library that suppo
 <p align="center">
   <b>Shedule</b>
 </p>
-We did not stick up to our initial schedule due to parts arriving late
+We did not stick up to our initial schedule due to parts arriving late.
 
 Original schedule:
-* Week 1: Connecting all parts and configure all pins
+* Week 1: Connect all parts and configure all pins
 * Week 2: Impliment self driving and bluetooth modes with obstacle avoidance
 * Week 3: Assemble all code and begin testing
 * Week 4: Prepare for final Presentation and write up
@@ -76,19 +76,19 @@ Actual schedule:
 </p>
 
 Our project has 4 main components; they include driving the wheels using motors, sensing distance from obstacles by using the ultrasonic sensor, connecting bluetooth to receive commands via UART and autonomous driving which relies on bluetooth connection for commands. 
-After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according to the diagram below:  **attch diagram Diagram can be handdrawn** 
+After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according. The Featherwings is soldered onto the Huzzah board, wires from the motors are connected to the pins on the featherbord which is also connected to a battery pack for power and the ultrasonic sensor is connected to the Huzzah board on tx and rx pins. 
+
+#### Driving Motors
+We use the 4 DC motors in servo form factor to drive the rover and are controlled using the featherwing. The featherwing can accommodate 4 separate DC motors or 2 separate stepper motors. By using motorshield library, we control each individual motor's speed and direction in a few lines of code. We run each motor at a minimum of 20 rpm and a maximum of 120 rpm as per the manufacturer's specifications. 
 
 #### Turning
-To make a turn, we studied differential drive kinematics to move the wheels at different speeds to turn into the direction that want. To make a right turn, we move the wheels of the left side of the rover at a speed that is 10 times faster than that of right side of the wheels (the inner wheels). To turn to the left side, we do the opposite.
+To make a turn, we studied differential drive kinematics to move the wheels at different speeds to turn into the direction that want. To make a right turn, we move the wheels of the left side of the rover (outer wheels) at a speed that is 10 times faster than that of right side of the wheels (the inner wheels). To turn to the left side, we do the opposite.
 
 #### Distance from an obtacle
-We use the ultrasonic sensor to detect obstacles infront of the rover. The sensor sends 8 bursts of ultrasonic waves from the trigger and receives the echo through the receiver. We calculate the distance of the object from the rover multiplying the duration it takes the receiver to recieve the first echo with the speed of sound in air divided by 2 to account for the round trip. In this project, we did not do the actual calculation of the distance, we instead calculate the duration it would take an object to be 15cm away from the rover and found it to be 883 microseconds. We then use this time to detect if there are any objects at within range direnctly infront of the rover. We stop moving if we sense an object in the case of manual control, we turn 45% degrees to the right if in autonomous mode. 
-
-## Motors
-We use four DC motors in servo form factor to drive the rover. The motors are powered using 4 AA batteries. We used a dc featherwing to power and control the motors. the featherwing can accommodate 4 separate dc motors or 2 separate stepper motors. By using motorshield library, we control each individual motor's speed and direction in a few lines of code. We run each motor at a minimum of 20 rpm and a maximum of 120 rpm per manufacturers specification. 
+We use the ultrasonic sensor to detect obstacles infront of the rover. The sensor sends 8 bursts of ultrasonic waves from the trigger and receives the echo through the receiver. We calculate the distance of the object from the rover by multiplying the duration it takes the receiver to recieve the first echo with the speed of sound in air divided by 2 to account for the round trip. In this project, we do not do the actual calculation of the distance, we instead calculate the duration it would take an object to be 20cm away from the rover and found it to be 1500 microseconds. We then use this time to detect if there are any objects at within range direnctly infront of the rover. We stop moving if we sense an object in the case of manual control. If in autonomous mode, we try to find the path using trial and error like a worm by turning 45 degrees first to the right, then  -90 if clear path not found, then 135 degrees , then -180 degrees until we find a path that has no obstacle, if we can't find a path we stop and send a distress signal using the red LED. 
 
 
-## Bluetooth
+#### Bluetooth
 After writing the code for connecting the esp32 via bluetooth, we use the BlueFruitConnect app on our phone to connect to the esp32's bluetooth. The app has four directional arrows and 4 digits that can be used to send commands to the board via UART. We have encoded this commands to associate every command recieved with the desired connection. For instance, pressing the forward arrow is equivalent to sending !B517 to the esp via the UART terminal. This is interpreted as moving the the motors forward. Below is all the relevant actions on the app, their corresponding commands and how we interpret them
 action              command         interpretation
 Hold Up arrow       !B517           move forward
