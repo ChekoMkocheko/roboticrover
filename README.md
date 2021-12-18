@@ -102,6 +102,16 @@ After writing the code for connecting the esp32 via bluetooth, we use the BlueFr
 
 We switch to autonomous mode by pressing 3. We exit from autonomous mode by pressing 4. Autonomous mode automatically uses the top speed. At the moment, autonomous mode makes the rover to always move forward. If it encounters an object, it stops and turns 45 degrees to the right. The initial plan was to make it search for an obstackless path just like a worm would do. It would first turn 45 degrees to the right to see if it can move into that direction, if there is an object it would then turn 90 degrees to the left and try to find a free path. If the path is not free, then it would turn 135 degrees to the right to look for another path, it there is not path it would again turn 180 degrees to the left. If there is still no path, the rover would stop moving. 
 
+</p>
+
+<p align="center">
+  <b>Demo</b>
+</p>
+
+[![Watch Demo](https://drive.google.com/file/d/1yRhcWYMBkAD6pmKJCZgi694lP4gikNFH/view?usp=sharing)](https://youtu.be/kqcvnlc73F0)
+
+
+
 
 <p align="center">
   <b>Challenges</b>
