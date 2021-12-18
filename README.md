@@ -108,7 +108,7 @@ We switch to autonomous mode by pressing 3. We exit from autonomous mode by pres
   <b>Demo</b>
 </p>
 
-[![Watch Demo](https://github.com/ChekoMkocheko/roboticrover/issues/1#issue-1083721589)](https://youtu.be/kqcvnlc73F0)
+[![Watch Demo](https://github.com/ChekoMkocheko/roboticrover/blob/main/RoboticCarImage2.jpg)](https://youtu.be/kqcvnlc73F0)
 
 
 
