@@ -84,7 +84,7 @@ We use the 4 DC motors in servo form factor to drive the rover and are controlle
 #### Turning
 To make a turn, we studied differential drive kinematics to move the wheels at different speeds to turn into the direction that want. To make a right turn, we move the wheels of the left side of the rover (outer wheels) at a speed that is 10 times faster than that of right side of the wheels (the inner wheels). To turn to the left side, we do the opposite.
 
-#### Distance from an obtacle
+#### Distance from an obstacle
 We use the ultrasonic sensor to detect obstacles infront of the rover. The sensor sends 8 bursts of ultrasonic waves from the trigger and receives the echo through the receiver. We calculate the distance of the object from the rover by multiplying the duration it takes the receiver to recieve the first echo with the speed of sound in air divided by 2 to account for the round trip. In this project, we do not do the actual calculation of the distance, we instead calculate the duration it would take an object to be 25cm away from the rover and found it to be 1500 microseconds. We then use this time to detect if there are any objects at within range direnctly infront of the rover. We stop moving if we sense an object in the case of manual control. If in autonomous mode, we try to find the path using trial and error like a worm by turning 45 degrees first to the right, then  -90 if clear path not found, then 135 degrees , then -180 degrees until we find a path that has no obstacle, if we can't find a path we stop and send a distress signal using the red LED. 
 
 
