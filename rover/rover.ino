@@ -30,23 +30,26 @@ void automode(void);
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 
-
+/* we use each of these variables to control each of the four motors we use individually */
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *rightBack = AFMS.getMotor(1);
 Adafruit_DCMotor *leftBack = AFMS.getMotor(2);
 Adafruit_DCMotor *rightFront = AFMS.getMotor(3);
 Adafruit_DCMotor *leftFront = AFMS.getMotor(4);
 
-
-
-const int trigPin = 16;
-const int echoPin = 17;
+/*pins we use to handle the sensor */
+const int trigPin = 16; 
+const int echoPin = 17; 
 
 #define sound speed in cm/uS
 #define SOUND_SPEED 0.034
 #define CM_TO_INCH 0.393701
-#define FULL_ROTATION 800000
+
+/* these constants are based on the calcuations we made using differntial drive kinematic */
+#define FULL_ROTATION 800000 
 #define DIST_OFFSET 70000
+
+
 void dist(void);
 unsigned int duration;
 volatile int echoduration = 0;
