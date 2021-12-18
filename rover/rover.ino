@@ -76,6 +76,7 @@ double degrees_to_radians(double deg){
 double radian_to_degrees(double rad){
   return rad * 180.0 / M_PI;
 }
+
 void turnRight(){
   leftBack->setSpeed(SPEED);
   leftFront->setSpeed(SPEED);
@@ -178,6 +179,7 @@ void dist() {
   echoduration = duration;
  
 }
+
 void setup() {
 Serial.begin(115200);
 //Serial1.begin(9600);
@@ -196,7 +198,7 @@ rightFront->setSpeed(SPEED);
 //bluetooth (bluefruit) setup
 
   // Create the BLE Device
-  BLEDevice::init("UART Service");
+  BLEDevice::init("UART Service"); /*you can change this name to whatever you prefer */
 
   // Create the BLE Server
   pServer = BLEDevice::createServer();
@@ -232,11 +234,6 @@ rightFront->setSpeed(SPEED);
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
   pinMode(13, OUTPUT);
 }
- /**
-  * driveMotor is responsible for interpreting the inputs from bluetooth. We programmed different behaviors
-  * to the buttons in order to respond move the robot and be able to switch from auto to manual, increase and decrease speed,
-  * turn right and left, and move forward and backwards.
-  */
  void turnAngle(double angle){
   if (angle > 0){
     moveRight();
@@ -283,7 +280,9 @@ rightFront->setSpeed(SPEED);
           adjustAngle = -180;
           turnAngle(adjustAngle);
           dist();
-          if (!(echoduration > 1500 || echoduration == 0)){
+          if (!(echoduration > 1500 || echoduration == 0)){ 
+            /* if the rover still cannot find a way out, then the rover will turn on its led 
+            to signal the panick mode until the user turns on manual mode and maneuvers the rover out*/
             while(isAuto){
             if (t[3] == '1' && t[2] == '4') isAuto = false;
             digitalWrite(13, HIGH);
@@ -312,12 +311,13 @@ rightFront->setSpeed(SPEED);
  }
  }
  }
+ /**
+  * automode() function is engaged when the user switches from manual to auto. the user can send the distance
+  * they wish to travel and 
+  */
  void automode(){
   if (isAuto){
   float distance;
-//  while (t[1] == 'B' && isAuto){
-//    if (t[3] == '1' && t[2] == '4') isAuto = false;
-//  }
   if (t[0] == 's' || t[0] == 'S'){
      distance = (((int) t[1]) -48) * 100 + (((int) t[2]) -48)* 10 + (((int) t[3] -48) * 1);
  
@@ -325,7 +325,11 @@ rightFront->setSpeed(SPEED);
   }
   }
  }
-
+ /**
+  * driveMotor is responsible for interpreting the inputs from bluetooth. We programmed different behaviors
+  * to the buttons in order to respond move the robot and be able to switch from auto to manual, increase and decrease speed,
+  * turn right and left, and move forward and backwards.
+  */
 void driveMotor(){
   if (isAuto){
     automode();
@@ -367,13 +371,19 @@ void communicateWithApp(){
         oldDeviceConnected = deviceConnected;
     }
     // connecting
-    if (deviceConnected && !oldDeviceConnected) {
-    // do stuff here on connecting
-        oldDeviceConnected = deviceConnected;
+    if (deviceConnected && !oldDeviceConnected) { 
+      //blink an led on initial connection. 
+        digitalWrite(13, HIGH);
+        delay(100);
+        digitalWrite(13, LOW);
+        oldDeviceConnected = deviceConnected; 
     }
 }
+/**
+ * The loop is very simple. We make sure that we can still communicate with the bluetooth
+ * and interprets any commands through the driveMotor() function
+ */
 void loop() {
- 
     communicateWithApp();
     driveMotor();
 
