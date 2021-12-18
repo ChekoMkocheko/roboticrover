@@ -7,7 +7,7 @@
 
 ## Introduction
 
-After nine weeks of learning embedded systems in class, we decided to spend the last four weeks of the semester developing a simple robotic rover that can be controlled by bluetooth or autonomnously by uploading commands to the divice via Bluetooth, and it can avoid objects on its way. The goal of the project is to design the rover as a tool that can be used by scientists to collect data or to observe phonomena in areas that are not human friendly. We draw our motivation from the Mars Persverance Rover which was launced last year (2020). We felt inspired by the fact that it is possible to put an autonomous vehicle on Mars and leave it to collect data in a way that a human would have done if Mars were accessible. In our project, we have managed to achieve a few functionalities of the Perseverance Rover such as remote control and limited autonomous control. Our desire is to add more data collection features over time. In implimenting this project, we found useful information from reading "Differential Drive Kinematics", "Esp32 Using HW Timers", "ArduinoBLE" , "Using DC Motors"  and YouTube tutorials. All links are found at the refence section. 
+After nine weeks of learning embedded systems in class, we decided to spend the last four weeks of the semester developing a simple robotic rover that can be controlled by bluetooth or autonomnously by uploading commands to the device via Bluetooth, and it can avoid objects on its way and adjust its course to reach its target. The goal of the project is to design the rover as a tool that can be used by scientists to collect data or to observe phonomena in areas that are not human friendly. We draw our motivation from the Mars Persverance Rover which was launced last year (2020). We felt inspired by the fact that it is possible to put an autonomous vehicle on Mars and leave it to collect data in a way that a human would have done if Mars were accessible. In our project, we have managed to achieve a few functionalities of the Perseverance Rover such as remote control and limited autonomous control. Our desire is to add more data collection features over time. In implimenting this project, we found useful information from reading "Differential Drive Kinematics", "Esp32 Using HW Timers", "ArduinoBLE" , "Using DC Motors"  and YouTube tutorials. All links are found at the refence section. 
 
 
 <p align="center">
@@ -32,8 +32,8 @@ The table below lists all the materials we used and how you can get them to get 
 |  	|  	| **TOTAL** | **$112.10**	|  |
 
 
-We chose to buy chasis kit with its associated tyres and DC motors to save ourselves time to build things from scratch and instead concentrate on writing software. Initally we wanted to use a different kind of motors that would have given us more control over rotating them but we would have had to spend more time trying to build a model car and put things together. As for the wheels, we wanted more compact wheels that would have a better grip on a variety of terrain but we were limited by the model. As for the Ultrasonic sensor, we chose it because it is easy to use and gave us the option of reading distance of an obstacle directly from it without any calculations. We were not able to use this mode due to poor instructions. We instead calculated the distance from the speed of sound and the duration that it takes the echo receiver to get the echo back. 
-We used the rechargeable battery to provide 5v power to the Huzzah board, while the motors were powered by the AA batteries which provided 3.5v. 
+We chose to buy chasis kit with its associated tyres and DC motors to save ourselves time we would have spent to build things from scratch. This allowed us to concentrate on writing software. Initally we wanted to use a different kind of motors that would have given us more control by allowing us to cetermine the number of rotations we wanted a wheel to make for distance estimation but we would have had to spend more time trying to build a model car and put things together. As for the wheels, we wanted more compact wheels that would have a better grip on a variety of terrain but we were limited by what the chasis could support. As for the Ultrasonic sensor, we chose it because it is easy to use and gave us the option of reading distance of an obstacle directly from it without any calculations.However, we could not utilize mode due to instructions on datasheet. We instead calculated the distance using speed of sound and the duration that it takes receiver to receive the echo after sending ultasonic waves. 
+We used the rechargeable battery to provide 5v power to the Huzzah board, while the motors were powered by the AA batteries which provided 3.5v. The featherwings is needed for running the DC motors. 
 
 
 <p align="center">
@@ -101,6 +101,16 @@ After writing the code for connecting the esp32 via bluetooth, we use the BlueFr
 </p>
 
 We switch to autonomous mode by pressing 3. We exit from autonomous mode by pressing 4. Autonomous mode automatically uses the top speed. At the moment, autonomous mode makes the rover to always move forward. If it encounters an object, it stops and turns 45 degrees to the right. The initial plan was to make it search for an obstackless path just like a worm would do. It would first turn 45 degrees to the right to see if it can move into that direction, if there is an object it would then turn 90 degrees to the left and try to find a free path. If the path is not free, then it would turn 135 degrees to the right to look for another path, it there is not path it would again turn 180 degrees to the left. If there is still no path, the rover would stop moving. 
+
+</p>
+
+<p align="center">
+  <b>Demo</b>
+</p>
+
+[![Watch Demo](https://github.com/ChekoMkocheko/roboticrover/blob/main/RoboticCarImage2.jpg)](https://youtu.be/kqcvnlc73F0)
+
+
 
 
 <p align="center">
