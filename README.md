@@ -54,7 +54,7 @@ We learnt about the libraries by googling how Arduino supports each individual c
 For the ultasonic sensor we wanted to use SoftwareSerial, the library that supports UART communication, but it does not support the Adafruit Esp32 Feather board. We could not use it. We used online tutorials to learn how to use the trig pin to send signals to the sensor and read back the duration it would take for the echo pin to recieve the reflected signal.
 
 <p align="center">
-  <b>Shedule</b>
+  <b>Schedule</b>
 </p>
 We did not stick up to our initial schedule due to parts arriving late.
 
