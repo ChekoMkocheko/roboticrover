@@ -33,7 +33,7 @@ The table below lists all the materials we used and how you can get them to get 
 
 
 We chose to buy chasis kit with its associated tyres and DC motors to save ourselves time to build things from scratch and instead concentrate on writing software. Initally we wanted to use a different kind of motors that would have given us more control over rotating them but we would have had to spend more time trying to build a model car and put things together. As for the wheels, we wanted more compact wheels that would have a better grip on a variety of terrain but we were limited by the model. As for the Ultrasonic sensor, we chose it because it is easy to use and gave us the option of reading distance of an obstacle directly from it without any calculations. We were not able to use this mode due to poor instructions. We instead calculated the distance from the speed of sound and the duration that it takes the echo receiver to get the echo back. 
-We used the rechargeable battery to provide 5v power to the Huzzah board, while the motors were powered by the AA batteries which provided 3.5v. 
+We used the rechargeable battery to provide 5V power to the Huzzah board, while the motors were powered by the AA batteries which provided 3.7V. 
 
 
 <p align="center">
@@ -149,12 +149,11 @@ In its current form, the rover cannot be operated by the visually impared. This 
 <p align="center">
   <b>Ethical Concerns</b>
 </p>
+The major ethical concerns of project are its environmental impact and how the rover could be used for malice. The double AA batteries have to be thrown away once their charge is drained contributing to e-waste. This externality, however, can be reduced by using rechargeable batteries. If the circuit boards are not recycled they can also contribute to e-waste that has raised environmental justice concenrs in recent years. We strongly encourage whoever imitates the project to have a recycling or reusing plan after this project. 
 
-E-waste (the AA battery and the circuit boards)
-Parts can be recycled for bigger robotic projects
-Could be used for malice when more components are added e.g. to spy or for terrorism
-Security concerns: device can connect to any bluetooth device, it can easily be hacked, stolen or used for crime
-Makes people who designed it look way cooler than they really are
+The rover's ability to be controlled remotely makes it vulnerable to malicious use such as terrorism and spying which could lead to serious harm on people. We hope the rover will not be put into bad use. We denounce evil use of the rover. 
+
+Lastly, using bluetooth to connect to the rover leaves one's phone vulnerable to hacking ([Bluesnarfing and Bluebugging](https://www.bullguard.com/blog/2018/01/can-a-device-be-hacked-via-bluetooth) ) which could result in serious problems. We urge users to only connect to devices they trust and to always turn off their bluetooth when not in use. 
 
 
 <p align="center">
