@@ -3,8 +3,7 @@
 #include <BLEServer.h>
 #include <BLEUtils.h>
 #include <BLE2902.h>
-#include <math.h>
-
+#include <cmath>
 
 BLEServer *pServer = NULL;
 BLECharacteristic * pTxCharacteristic;
@@ -31,6 +30,7 @@ void automode(void);
 #include <Adafruit_MotorShield.h>
 #include "utility/Adafruit_MS_PWMServoDriver.h"
 
+
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_DCMotor *rightBack = AFMS.getMotor(1);
 Adafruit_DCMotor *leftBack = AFMS.getMotor(2);
@@ -55,6 +55,7 @@ float distanceInch;
 float destDist;
 float destAngle;
 
+
 /*handles connecting and disconnecting to the bluetooth server */
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
@@ -64,10 +65,14 @@ class MyServerCallbacks: public BLEServerCallbacks {
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
     }
-};
+};  
 
-
-
+double degrees_to_radians(double deg){
+    return deg * M_PI / 180.0;
+}
+double radian_to_degrees(double rad){
+  return rad * 180.0 / M_PI;
+}
 void turnRight(){
   leftBack->setSpeed(SPEED);
   leftFront->setSpeed(SPEED);
@@ -123,8 +128,8 @@ void moveForward(){
 
 void moveBackward(){
   turnStraight();
-  leftBack->run(FORWARD);
-  leftFront->run(FORWARD);
+  leftBack->run(BACKWARD);
+  leftFront->run(BACKWARD);
   rightBack->run(BACKWARD);
   rightFront->run(BACKWARD);
 }
@@ -132,13 +137,13 @@ void increaseSpeed(){
   if (SPEED + 5 < MAX_SPEED){
     SPEED = SPEED + 5;
   }
-  Serial.println(SPEED);
+  
 }
 void decreaseSpeed(){
   if (SPEED > MIN_SPEED){
     SPEED = SPEED - 5;
   }
-  Serial.println(SPEED);
+ 
 }
  
 
@@ -151,7 +156,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         Serial.println("*********");
         Serial.print("Received Value: ");
         for (int i = 0; i < rxValue.length(); i++){
-          //Serial.print(rxValue[i]);
+          
           t[i]=rxValue[i];
    
         }
@@ -168,7 +173,7 @@ void dist() {
   // Reads the echoPin, returns the sound wave travel time in microseconds
   duration = pulseIn(echoPin, HIGH);
   echoduration = duration;
-  Serial.println(duration);
+ 
 }
 void setup() {
 Serial.begin(115200);
@@ -222,20 +227,14 @@ rightFront->setSpeed(SPEED);
   //ultrasonic sensor setup
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(13, OUTPUT);
 }
-//void avoidObject(){
-//  
-//}
  /**
   * driveMotor is responsible for interpreting the inputs from bluetooth. We programmed different behaviors
   * to the buttons in order to respond move the robot and be able to switch from auto to manual, increase and decrease speed,
   * turn right and left, and move forward and backwards.
   */
-// void adjust(int timevar, int angle){
-//  int dist = timevar * SPEED;
-//  
-// }
- void turnAngle(int angle){
+ void turnAngle(double angle){
   if (angle > 0){
     moveRight();
     delay(FULL_ROTATION * angle/ (SPEED * 360) );
@@ -246,27 +245,86 @@ rightFront->setSpeed(SPEED);
   }
  
  }
- void moveDist(int travelDist){
-  moveForward();
-  delay(70000 * travelDist / (11 * SPEED));
-  stopMotion();
+ void moveDist(double travelDist){
+  double adjustAngle;
+  if (travelDist < 20){
+    stopMotion();
+    t[0] = 'p';
+   
+  }
+  else{
+  if (t[3] == '1' && t[2] == '4') isAuto = false;
+  dist();
+  if(echoduration > 1500 || echoduration == 0) {
+    moveForward();
+    delay(70000 * 20 / (11 * SPEED));
+    travelDist = travelDist - 20;
+
+   
+  }
+  else{ //collision imminent
+    adjustAngle = 45;
+    stopMotion();
+   
+    turnAngle(adjustAngle);
+    dist();
+    if (!(echoduration > 1500 || echoduration == 0)){
+      adjustAngle = -90;
+      turnAngle(adjustAngle);
+      dist();
+      if (!(echoduration > 1500 || echoduration == 0)){
+        adjustAngle = 135;
+        turnAngle(adjustAngle);
+        dist();
+        if (!(echoduration > 1500 || echoduration == 0)){
+          adjustAngle = -180;
+          turnAngle(adjustAngle);
+          dist();
+          if (!(echoduration > 1500 || echoduration == 0)){
+            while(isAuto){
+            if (t[3] == '1' && t[2] == '4') isAuto = false;
+            digitalWrite(13, HIGH);
+            delay(100);
+            digitalWrite(13, LOW);
+            }
+          }
+        }
+      }
+    }
+    if (isAuto){
+      moveForward();
+      delay(70000 * 20 / (11 * SPEED));
+      double newTravelDist;
+      newTravelDist = sqrt((400 + travelDist * travelDist) - (40 * travelDist * cos(degrees_to_radians(adjustAngle)))); //cosine rule
+ 
+     
+      adjustAngle = asin((travelDist * sin(degrees_to_radians(adjustAngle)) / newTravelDist)); //sine rule
+      adjustAngle = ((double)radian_to_degrees(adjustAngle));
+ 
+    }
+    turnAngle(0 - adjustAngle + 90);  
+ }
+ if (isAuto) {
+  moveDist(travelDist);
+ }
+ }
  }
  void automode(){
- if(echoduration > 1500 || echoduration == 0) {
-  //moveForward();
-  dist();
- }
- else{
-    stopMotion();
-    turnAngle(90);
-    moveDist(20);
-    //stopMotion();
-    //dist();
+  if (isAuto){
+  float distance;
+//  while (t[1] == 'B' && isAuto){
+//    if (t[3] == '1' && t[2] == '4') isAuto = false;
+//  }
+  if (t[0] == 's' || t[0] == 'S'){
+     distance = (((int) t[1]) -48) * 100 + (((int) t[2]) -48)* 10 + (((int) t[3] -48) * 1);
+ 
+     moveDist(distance);
+  }
   }
  }
+
 void driveMotor(){
   if (isAuto){
-    if (t[3] == '1' && t[2] == '4') isAuto = false;
     automode();
   }
   else{
@@ -313,7 +371,7 @@ void communicateWithApp(){
 }
 void loop() {
  
-    communicateWithApp(); //handles all the communications with bluetooth
+    communicateWithApp();
     driveMotor();
 
 }
