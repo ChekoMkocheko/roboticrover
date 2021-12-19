@@ -116,9 +116,10 @@ The rover is always on manual mode by defualut. To use this mode, we first conne
 </p>
 
 We switch to autonomous mode by pressing 3. We exit from autonomous mode by pressing 4. We can also change the speed of the rover by pressing 1 to increase speed or 2 to reduce speed. The default speed is 110 rpm. Upon pressing 3, we navigate to UART service in the app and send "sXXX" or "SXXX" where XXX is the distance to target in centimeters. At the moment we cannot send more than 3 digits of distance because the app does not allow us to send more than 4 bytes. For instance, to move 5cm we send "s005". The rover moves in straight line towards target distance and stops once it reaches the target. If there is an obstacle along the way, the rover would make a 45 degrees right turn and move 20cm then turn back to the original course towards the target, but it would approach the target from an angle. We use angle proprties of triangles to adjust the angle the rover needs to turn to remain on course after going around an obstacle, we use the cosine rule to find the new adjusted distance to target. If the rover does not find a path after turning 45 degrees we try to go 90 degrees left by 20cm and do the same adjustment as in the 45 degrees turn. If the left turn has no path we turn back right by 135 degrees, and if there is still an object we turn back left by 180 degrees. If we still can't find a path then the rover goes into distress mode by blinking the red LED. The triangle we describe above is formed by the destination, the point where the rover turns, and the point where the rover ends at after turning. 
-Click the image below to watch the demo. 
+Click the image below to watch the two demos below. 
 
 [![Demo](https://github.com/ChekoMkocheko/roboticrover/blob/main/RoboticCarImage2.jpg)](https://www.youtube.com/watch?v=kqcvnlc73F0&ab_channel=FabianMkocheko)
+[![Demo2](https://github.com/ChekoMkocheko/roboticrover/blob/main/RoboticCarImage2.jpg)](https://youtu.be/xCjoga6XJ-E)
 
 <p align="center">
   <b>Challenges</b>
