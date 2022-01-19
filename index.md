@@ -79,6 +79,10 @@ Our project has 4 main components; they include driving the wheels using motors,
 After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according. The Featherwings is soldered onto the Huzzah board, wires from the motors are connected to the pins on the featherbord which is also connected to a battery pack for power and the ultrasonic sensor is connected to the Huzzah board on tx and rx pins. 
 
 ![Circuit Diagram ](https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png)
+<img src="blob/main/wiring.png">
+<img src="main/wiring.png">
+<figure><img src="blob/main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
+<figure><img src="main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
 
 #### Driving Motors
 We use the 4 DC motors in servo form factor to drive the rover and are controlled using the featherwing. The featherwing can accommodate 4 separate DC motors or 2 separate stepper motors. By using motorshield library, we control each individual motor's speed and direction in a few lines of code. We run each motor at a minimum of 20 rpm and a maximum of 120 rpm as per the manufacturer's specifications. 
