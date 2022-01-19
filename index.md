@@ -80,6 +80,9 @@ After getting the material from the vendor, we studied the schematic for evey co
 
 ![Circuit Diagram ](https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png)
 <img src="blob/main/wiring.png">
+![Circuit Diagram](main/wiring.png)
+![Circuit Diagram](blob/main/wiring.png)
+
 <a href="awesome-post">
   <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
 <img src="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
