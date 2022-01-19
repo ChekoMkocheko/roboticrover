@@ -80,7 +80,9 @@ After getting the material from the vendor, we studied the schematic for evey co
 
 ![Circuit Diagram ](https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png)
 <img src="blob/main/wiring.png">
-<img src="main/wiring.png">
+<a href="awesome-post">
+  <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
+<img src="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
 <figure><img src="blob/main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
 <figure><img src="main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
 
@@ -183,5 +185,5 @@ Lastly, a small speaker can be added to the rover to enable it send audio messag
 3. [1 Differential Drive Kinematics](http://www.cs.columbia.edu/~allen/F17/NOTES/icckinematics.pdf)
 4. [Using ESp32 HW Timers](https://desire.giesecke.tk/index.php/2018/04/22/using-the-hw-timers-of-the-esp32/)
 5. [ArduinoBLE](https://www.arduino.cc/en/Reference/ArduinoBLE)
-6. [Using DC Motors | Adafruit Motor Shield V2 | Adafruit](https://learn.adafruit.com/adafruit-motor-shield-v2-for-arduino/using-dc-motors)
+6. [Using DC Motors Adafruit Motor Shield V2 ](https://learn.adafruit.com/adafruit-motor-shield-v2-for-arduino/using-dc-motors)
 7. [ESP32 Technical Tutorials: BLE Notifications](https://www.youtube.com/watch?v=oCMOYS71NIU)
