@@ -83,7 +83,7 @@ After getting the material from the vendor, we studied the schematic for evey co
   </a>
 
    <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
-<img src="main/wiring.png" alt="Trial Image ">
+<img src="wiring.png" alt="Circuit Diagram">
 </a>
 
 #### Driving Motors
