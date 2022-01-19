@@ -81,11 +81,10 @@ After getting the material from the vendor, we studied the schematic for evey co
   <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
 <img src="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
   </a>
-<figure><img src="blob/main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
-<figure><img src="main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
+
     
    <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
-<img src="main/wiring.png" alt="HTML tutorial">
+<img src="main/wiring.png" alt="Trial">
 </a>
 
 #### Driving Motors
