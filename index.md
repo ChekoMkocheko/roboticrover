@@ -78,14 +78,9 @@ Actual schedule:
 Our project has 4 main components; they include driving the wheels using motors, sensing distance from obstacles by using the ultrasonic sensor, connecting bluetooth to receive commands via UART and autonomous driving which relies on bluetooth connection for commands. 
 After getting the material from the vendor, we studied the schematic for evey component to figure out how to connect all the wires according. The Featherwings is soldered onto the Huzzah board, wires from the motors are connected to the pins on the featherbord which is also connected to a battery pack for power and the ultrasonic sensor is connected to the Huzzah board on tx and rx pins. 
 
-![Circuit Diagram ](https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png)
-<img src="blob/main/wiring.png">
-![Circuit Diagram](main/wiring.png)
-![Circuit Diagram](blob/main/wiring.png)
-
-<a href="awesome-post">
   <a href="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
 <img src="https://github.com/ChekoMkocheko/roboticrover/blob/main/wiring.png">
+  </a>
 <figure><img src="blob/main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
 <figure><img src="main/wiring.png"><figcaption>Circuit Diagram</figcaption></figure>
     
