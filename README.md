@@ -169,7 +169,6 @@ Lastly, a small speaker can be added to the rover to enable it send audio messag
 
 
 
-
 <p align="center">
   <b>References</b>
 </p>
